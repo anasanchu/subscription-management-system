@@ -35,6 +35,7 @@ body { background: var(--paper); color: var(--ink); }
 
 /* Login explains the product before asking for credentials. */
 .login {
+  position:relative;
   min-height: 100vh;
   padding: clamp(18px, 5vw, 72px);
   display: grid;
@@ -44,20 +45,35 @@ body { background: var(--paper); color: var(--ink); }
   background: #f4f2eb;
 }
 .login::before {
-  content: "SUBSCRIPT  /  OPERATIONS DESK\A\A The whole subscription story,\A on one calm screen.\A\A Quote a plan. Track each renewal.\A Know exactly what has been paid.";
+  content: "SUBSCRIPT  /  OPERATIONS DESK\A\ASubscriptions, from first quote\Ato the next renewal.\A\AWhat's active, what's due, and what's been paid.";
   white-space: pre-line;
   min-height: min(690px, calc(100vh - 2 * clamp(18px, 5vw, 72px)));
   padding: clamp(28px, 5vw, 64px);
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   border-radius: 6px 28px 6px 28px;
   color: #f8f5ea;
   background:
+    radial-gradient(#ffffff0b 1px, transparent 1px) 0 0 / 24px 24px,
     radial-gradient(ellipse at 84% 16%, #346354 0, transparent 38%),
     linear-gradient(148deg, #17372f 0%, #102a25 74%);
   box-shadow: 0 18px 50px #1c392c1a;
-  font: 600 clamp(24px, 3.1vw, 42px)/1.36 Manrope, sans-serif;
-  letter-spacing: -.035em;
+  font: 600 clamp(22px, 2.4vw, 32px)/1.32 Manrope, sans-serif;
+  letter-spacing: -.025em;
+}
+.login::after {
+  content:"01   QUOTE     /     02   ACTIVE     /     03   PAID";
+  position:absolute;
+  left:clamp(46px, 9vw, 136px);
+  top:clamp(430px, 56vh, 560px);
+  bottom:auto;
+  color:#dce7dd;
+  font:700 11px/1.4 "Segoe UI",Arial,sans-serif;
+  letter-spacing:.12em;
+  padding:13px 16px;
+  border:1px solid #ffffff35;
+  border-radius:4px 14px 4px 14px;
+  background:#ffffff0b;
 }
 .loginbox {
   width: min(440px, 100%);
@@ -126,6 +142,7 @@ body { background: var(--paper); color: var(--ink); }
 @media(max-width:850px) {
   .login { grid-template-columns:1fr; gap:18px; }
   .login::before { min-height:235px; padding:28px; font-size:24px; }
+  .login::after { display:none; }
   .loginbox { width:min(500px,100%); }
 }
 @media(max-width:700px) {
@@ -189,4 +206,79 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible {
   .right { gap:7px; }
   .right .btn { padding:8px 10px; }
   .login::before { min-height:165px; font-size:19px; }
+}
+
+/* Auth screen: brand story and a visual workflow instead of a text-only slab. */
+.login::before,.login::after { content:none !important; display:none !important; }
+.login-story {
+  position:relative; isolation:isolate; overflow:hidden;
+  min-height:min(690px,calc(100svh - 2 * clamp(18px,5vw,72px)));
+  padding:clamp(25px,4vw,48px);
+  display:flex; flex-direction:column; justify-content:space-between; gap:28px;
+  color:#f8f5ea;
+  border-radius:7px 30px 7px 30px;
+  background:
+    radial-gradient(#ffffff0b 1px,transparent 1px) 0 0 / 23px 23px,
+    radial-gradient(ellipse at 86% 10%,#39705e 0,transparent 38%),
+    linear-gradient(148deg,#17372f 0%,#102a25 76%);
+  box-shadow:0 22px 55px #17372f22;
+}
+.login-story::before {
+  content:""; position:absolute; z-index:-1; width:320px; height:320px;
+  right:-175px; top:115px; border:1px solid #ffffff1a; border-radius:50%;
+  box-shadow:0 0 0 25px #ffffff07,0 0 0 50px #ffffff05,0 0 0 75px #ffffff03;
+}
+.story-top { display:flex; align-items:center; gap:12px; }
+.story-logo { display:grid; place-items:center; width:42px; height:42px; border-radius:5px 14px 5px 14px; background:#e9a77c; color:#17372f; font:800 23px Georgia,serif; }
+.story-brand strong,.story-brand span { display:block; }
+.story-brand strong { font:800 14px "Segoe UI",Arial,sans-serif; letter-spacing:.1em; }
+.story-brand span { margin-top:4px; color:#c0d2c5; font-size:9px; letter-spacing:.13em; }
+.story-tag { margin-left:auto; padding:7px 9px; border:1px solid #ffffff35; border-radius:99px; color:#d8e2d8; font-size:9px; letter-spacing:.11em; }
+.story-main { max-width:520px; margin:auto 0; padding:16px 0; }
+.story-kicker { color:#efb585; font-size:10px; font-weight:700; letter-spacing:.16em; }
+.story-main h2 { margin:17px 0 14px; max-width:500px; font:700 clamp(37px,4vw,56px)/1.03 "Aptos Display","Segoe UI",sans-serif; letter-spacing:-.055em; }
+.story-main h2 em { color:#efb585; font-family:Georgia,serif; font-weight:400; }
+.story-main p { max-width:430px; margin:0; color:#d1dfd4; font-size:15px; line-height:1.65; }
+.journey { padding:16px 19px 10px; border:1px solid #ffffff28; border-radius:5px 16px 5px 16px; background:#ffffff0b; backdrop-filter:blur(4px); }
+.journey-heading { display:flex; justify-content:space-between; margin-bottom:6px; color:#c2d4c7; font-size:9px; font-weight:700; letter-spacing:.14em; }
+.journey-step { min-height:43px; display:flex; align-items:center; gap:12px; border-top:1px solid #ffffff1c; }
+.journey-number { display:grid; place-items:center; width:25px; height:25px; border:1px solid #efb5859c; border-radius:50%; color:#efb585; font-size:10px; font-weight:700; }
+.journey-label { flex:1; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.journey-label small { color:#a9c2b1; font-size:9px; letter-spacing:.12em; }
+.journey-label b { color:#f8f5ea; font-size:12px; font-weight:600; }
+.journey-check { color:#efb585; font-size:9px; font-weight:700; letter-spacing:.1em; }
+.story-foot { display:flex; justify-content:space-between; color:#a9c2b1; font-size:10px; letter-spacing:.07em; }
+.loginbox { padding:18px 0; }
+.loginbox .eyebrow { letter-spacing:.15em; }
+.loginbox h1 { line-height:1.12; }
+.loginbox .sub { line-height:1.55; }
+
+@media(max-width:850px) {
+  .login-story { min-height:420px; padding:27px; gap:20px; }
+  .story-main { margin:0; padding:8px 0; }
+  .story-main h2 { font-size:39px; }
+  .journey { padding:12px 14px 8px; }
+}
+@media(max-height:760px) and (min-width:851px) {
+  .login { padding:20px 36px; }
+  .login-story { min-height:0; height:610px; padding:26px 32px; gap:12px; }
+  .story-main h2 { font-size:40px; margin:11px 0 9px; }
+  .story-main p { font-size:14px; }
+  .journey { padding:10px 15px 6px; }
+  .journey-step { min-height:36px; }
+}
+@media(max-width:480px) {
+  .login-story { min-height:400px; padding:21px; border-radius:5px 20px 5px 20px; }
+  .story-tag { display:none; }
+  .story-main h2 { font-size:34px; }
+  .story-main p { font-size:14px; }
+  .journey-label { align-items:flex-start; flex-direction:column; gap:1px; }
+}
+@media(max-height:760px) and (min-width:851px) {
+  .login { padding:20px 36px; }
+  .login-story { min-height:0; height:610px; padding:26px 32px; gap:12px; }
+  .story-main h2 { font-size:40px; margin:11px 0 9px; }
+  .story-main p { font-size:14px; }
+  .journey { padding:10px 15px 6px; }
+  .journey-step { min-height:36px; }
 }

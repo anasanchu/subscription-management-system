@@ -29,6 +29,24 @@ test('authenticated page boot retains the app root and renders the dashboard', a
   assert.ok(view.innerHTML.includes('Expected monthly income from active subscriptions.'));
 });
 
+test('sign-in screen adds the branded journey panel and keeps its form', async () => {
+  const html=fs.readFileSync(path.join(root,'public','index.html'),'utf8');
+  const scriptStart=html.indexOf('<script>')+8,scriptEnd=html.indexOf('</script>',scriptStart);
+  const appRoot={innerHTML:''},form={};
+  let storyMarkup='';
+  const layout={querySelector(){return null;},insertAdjacentHTML(_position,markup){storyMarkup=markup;}};
+  const context=vm.createContext({
+    document:{querySelector(selector){return selector==='#app'?appRoot:selector==='.login'?layout:selector==='#login'?form:null;}},
+    fetch:async()=>({ok:false,status:401,json:async()=>({})}),
+    Intl,Date,Number,Math,String,Object,Array,encodeURIComponent,setTimeout,clearTimeout,console
+  });
+  vm.runInContext(html.slice(scriptStart,scriptEnd).replace(/\nboot\(\);\s*$/,''),context);
+  await context.boot();
+  assert.ok(storyMarkup.includes('Every renewal'));
+  assert.ok(storyMarkup.includes('Quote accepted'));
+  assert.equal(typeof form.onsubmit,'function');
+});
+
 async function start() {
   const port = 18000 + Math.floor(Math.random() * 20000);
   base = `http://127.0.0.1:${port}`;
@@ -69,7 +87,8 @@ test('Node application supports core workflows, access boundaries, and SQLite pe
   assert.ok(!home.data.includes('fonts.googleapis.com'));
   const css=await request('/public/design.css');
   assert.equal(css.response.status,200);
-  assert.ok(css.data.includes('SUBSCRIPT\'s warm paper'));
+  assert.ok(css.data.includes('.login-story'));
+  assert.ok(css.data.includes('.journey-step'));
   assert.ok(css.data.includes('@media(max-width:700px)'));
   assert.ok(css.data.includes('prefers-reduced-motion'));
   const scriptStart=home.data.indexOf('<script>')+8,scriptEnd=home.data.indexOf('</script>',scriptStart);
