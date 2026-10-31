@@ -1,0 +1,5 @@
+node_modules/
+subscript.db
+subscript.db-shm
+subscript.db-wal
+.tmp/
