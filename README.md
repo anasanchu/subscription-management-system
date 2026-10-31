@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SUBSCRIPT — Subscription Operations Platform
 
 SUBSCRIPT is a local-first subscription operations demo built with **JavaScript, Node.js 24, and SQLite**. The server uses Node's built-in `node:sqlite` module, so it needs no npm packages or hosted services. The responsive browser UI and server share JavaScript; SQLite stores accounts, catalog, plans, subscriptions, quotations, invoices, discounts, taxes, payments, and activity.
@@ -47,3 +48,7 @@ The checks cover sign-in, password validation, billing idempotency, quotation co
 ## Scope and deployment notes
 
 This is a hackathon demonstration app, not a production accounting system. Password reset email, real payment gateway processing, a background billing scheduler, CSV export, quotation templates, and a subscription change request queue are not implemented. Billing runs from the dashboard action. Payment amounts use SQLite `REAL`; a production deployment should use integer minor units, CSRF protection, expiring server-side sessions, secure cookies over HTTPS, migrations and backups, and reviewed authentication flows. Never expose the demo credentials publicly.
+=======
+# subscription-management-system
+Subscription Management System – Odoo Make-A-Ton 9.0 Kochi Hackathon 2026
+>>>>>>> 33eaf65b07c53f4048edf289ce58cdf6272440e2
